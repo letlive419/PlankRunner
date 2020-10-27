@@ -9,9 +9,9 @@ public class PlayerMovement : MonoBehaviour
     float right = 3;
    
     Rigidbody rigid;
-    [SerializeField] [Range(0,5000)] float force;
+    [SerializeField] [Range(0,100)] float force;
   
-    [SerializeField] float speed = 200;
+    [SerializeField] [Range (0,10)] float speed = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = new Vector3(movement, transform.position.y, transform.position.z);
 
-        rigid.velocity = (Vector3.forward * Time.deltaTime * speed);
+        rigid.velocity = (Vector3.forward * Time.time * speed);
         Movement();
 
       
@@ -44,13 +44,13 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         if (Input.GetButtonDown("up") == true)
-            if (transform.position.y > -.2)
+            if (transform.position.y > .56f)
                 return;
 
-            else if (transform.position.y < 0)
+            else if (transform.position.y < .56f)
             {
                 
-                rigid.AddForce(0f, force, 0f);
+                rigid.AddForce(0f, force * 300, 0f);
 
 
 
