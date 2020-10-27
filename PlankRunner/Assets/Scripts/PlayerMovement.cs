@@ -7,19 +7,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(-3,3)] float movement;
     float left = -3;
     float right = 3;
-    float jump = 0;
-    float up = 3;
-    Rigidbody rigid;
-    Vector3 force;
    
-    
+    Rigidbody rigid;
+    [SerializeField] [Range(0,5000)] float force;
+  
     [SerializeField] float speed = 200;
 
     // Start is called before the first frame update
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        force = new Vector3(movement, jump * speed, transform.position.z);
+        
         
 
     }
@@ -27,16 +25,44 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         transform.position = new Vector3(movement, transform.position.y, transform.position.z);
-        
+
         rigid.velocity = (Vector3.forward * Time.deltaTime * speed);
+        Movement();
+
+      
+
+    }
+    private void FixedUpdate()
+    {
+        Jump();
 
         
-        
+    }
+
+    private void Jump()
+    {
+        if (Input.GetButtonDown("up") == true)
+            if (transform.position.y > -.2)
+                return;
+
+            else if (transform.position.y < 0)
+            {
+                
+                rigid.AddForce(0f, force, 0f);
+
+
+
+
+
+            }
+    }
+    void Movement()
+    {
         if (Input.GetButtonDown("left") == true)
         {
-            
+
             if (movement == left)
                 return;
             else
@@ -55,26 +81,11 @@ public class PlayerMovement : MonoBehaviour
 
             }
         }
-        if (Input.GetButtonDown("up") == true)
-            if (transform.position.y > 0)
-                return;
-
-            else if (transform.position.y < 0)
-            {
-                jump = up;
-                rigid.AddForce(force);
-                print("jump");
-
-
-
-
-            }
-        
     }
-    
 
-    
 
-    }
+
+
+}
     
 
